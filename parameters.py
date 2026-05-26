@@ -5,6 +5,7 @@ default_k = 0.001
 
 #Experiment Parameters
 initial_temps = [240, 260, 290, 310, 340, 360]
+Kp_values = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
 
 #Plot/Output Parameters
 PLOT_DIR = "example_plots"

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 from parameters import PLOT_DIR
 class Plotting:
-    def plot_trajectory(times, temperatures, labels, filename="temperature_trajectories.png", title="Temperature Trajectories"):
+    def plot_trajectory(times, temperatures, labels, filename="temperature_trajectories.png", title="Temperature Trajectories", setpoint=None):
         
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
@@ -13,11 +13,14 @@ class Plotting:
         #Plot stable and unstable equilibria
         plt.plot(times, np.ones_like(times) * 250, linestyle='--', color='gray', alpha=0.5,label='Stable Equilibria')
         plt.plot(times, np.ones_like(times) * 350, linestyle='--', color='gray', alpha=0.5)
-        plt.plot(times, np.ones_like(times) * 300, linestyle=':', color='black', label='Unstable Equilibrium')
+        plt.plot(times, np.ones_like(times) * 300, linestyle=':', color='black', alpha=0.5, label='Unstable Equilibrium')
        
         #Plot trajectories
         for trajectory, label in zip(temperatures, labels):
                 plt.plot(times, trajectory, label=label, linewidth=2)
+        
+        if setpoint is not None:
+            plt.axhline(setpoint, color='red', linestyle='--', label='Setpoint')
         
         plt.xlabel('Time')
         plt.ylabel('Temperature (T)')
@@ -67,6 +70,6 @@ class Plotting:
         
         plt.legend()
         plt.tight_layout()
-        plt.savefig(f"{PLOT_DIR}/phase_portrait.png")
+        plt.savefig(f"{PLOT_DIR}/phase_portraits/phase_portrait.png")
         
         plt.show()

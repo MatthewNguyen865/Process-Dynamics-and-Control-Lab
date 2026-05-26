@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 from parameters import PLOT_DIR
 class Plotting:
-    def plot_trajectory(times, temperatures, labels):
+    def plot_trajectory(times, temperatures, labels, filename="temperature_trajectories.png", title="Temperature Trajectories"):
         
         if not os.path.exists(PLOT_DIR):
             os.makedirs(PLOT_DIR)
@@ -21,12 +21,12 @@ class Plotting:
         
         plt.xlabel('Time')
         plt.ylabel('Temperature (T)')
-        plt.title('Temperature Trajectories')
+        plt.title(title)
         plt.grid()
         
         plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         plt.tight_layout()
-        plt.savefig(f"{PLOT_DIR}/temperature_trajectories.png")
+        plt.savefig(f"{PLOT_DIR}/{filename}")
 
         plt.show()
     

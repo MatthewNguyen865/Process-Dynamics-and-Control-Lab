@@ -10,3 +10,6 @@ Ki_values = [0.5, 1.0, 2.0, 5.0, 10.0, 20.0]
 
 #Plot/Output Parameters
 PLOT_DIR = "example_plots"
+BASIN_DIR = f"{PLOT_DIR}/basin_dynamics"
+SETPOINT_DIR = f"{PLOT_DIR}/setpoint_tracking"
+PHASE_DIR = f"{PLOT_DIR}/phase_portraits"

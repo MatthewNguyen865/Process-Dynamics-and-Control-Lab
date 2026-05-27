@@ -6,7 +6,7 @@ class EulerSimulator():
         current_temp = initial_temp
         for i in range(num_steps):
             if controller is not None:
-                derivative = model.derivative(current_temp) + controller.compute_control(current_temp)
+                derivative = model.derivative(current_temp) + controller.compute_control(current_temp, time_step)
             else:
                 derivative = model.derivative(current_temp)
             current_temp = current_temp + derivative * time_step

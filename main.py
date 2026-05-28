@@ -5,7 +5,8 @@ from controllers.p import PController
 from controllers.pi import PIController
 from controllers.pid import PIDController
 from experiments.setpoint_tracking import run_setpoint_tracking
-from parameters import Kp_values, Ki_values, Kd_values, PID_Kp, PID_Ki, BASIN_DIR, PHASE_DIR, SETPOINT_DIR
+from parameters import PID_Kp, PID_Ki, BASIN_DIR, PHASE_DIR, SETPOINT_DIR
+from experiments.tuning_study import run_p_tuning_study, run_pi_tuning_study, run_pid_tuning_study, run_pid_instability_study, run_p_vs_pi_comparison
 
 # Run basin study with and without control and plot results
 times, temperatures, labels = run_basin_study()
@@ -19,62 +20,22 @@ Plotting.plot_trajectory(times, temperatures, labels, filename=f"{BASIN_DIR}/pid
 
 # Run setpoint tracking experiment with P controller and plot results
 times, temperatures, labels = run_setpoint_tracking(controller_type=PController, Kp=1.0)
-Plotting.plot_trajectory(times, [temperatures], labels, filename=f"{SETPOINT_DIR}/setpoint_tracking_baseline.png", title="P-Controlled Setpoint Tracking", setpoint=320)
-
-trajectory_list = []
-label_list = []
-for Kp in Kp_values:
-    times, temperatures, labels = run_setpoint_tracking(controller_type=PController, Kp=Kp)
-    trajectory_list.append(temperatures)
-    label_list.extend(labels)
-Plotting.plot_trajectory(times, trajectory_list, label_list, filename=f"{SETPOINT_DIR}/setpoint_tracking_Kp_sweep.png", title="P-Controlled Setpoint Tracking", setpoint=320)
+Plotting.plot_trajectory(times, [temperatures], labels, filename=f"{SETPOINT_DIR}/p_controlled_setpoint_tracking.png", title="P-Controlled Setpoint Tracking", setpoint=320)
+run_p_tuning_study()
 
 # Run setpoint tracking experiment with PI controller and plot results
 times, temperatures, labels = run_setpoint_tracking(controller_type=PIController, Kp=1.0, Ki=2.0)
 Plotting.plot_trajectory(times, [temperatures], labels, filename=f"{SETPOINT_DIR}/setpoint_tracking_pi_best.png", title="PI-Controlled Setpoint Tracking", setpoint=320)
-
-trajectory_list = []
-label_list = []
-for Kp, Ki in zip(Kp_values, Ki_values):
-    times, temperatures, labels = run_setpoint_tracking(controller_type=PIController, Kp=Kp, Ki=Ki)
-    trajectory_list.append(temperatures)
-    label_list.extend(labels)
-Plotting.plot_trajectory(times, trajectory_list, label_list, filename=f"{SETPOINT_DIR}/setpoint_tracking_Kp_Ki_sweep.png", title="PI-Controlled Setpoint Tracking", setpoint=320)
+run_pi_tuning_study()
 
 # Run setpoint tracking experiment with PID controller and plot results
 times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=0.1)
 Plotting.plot_trajectory(times, [temperatures], labels, filename=f"{SETPOINT_DIR}/setpoint_tracking_pid_best.png", title="PID-Controlled Setpoint Tracking", setpoint=320)
-
-trajectory_list = []
-label_list = []
-for Kd in Kd_values:
-    times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=Kd)
-    trajectory_list.append(temperatures)
-    label_list.extend(labels)
-Plotting.plot_trajectory(times, trajectory_list, label_list, filename=f"{SETPOINT_DIR}/setpoint_tracking_Kd_sweep.png", title="PID-Controlled Setpoint Tracking", setpoint=320)
-
-trajectory_list = []
-label_list = []
-times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=0.1)
-trajectory_list.append(temperatures)
-label_list.extend(labels)
-times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=1.0)
-trajectory_list.append(temperatures)
-label_list.extend(labels)
-Plotting.plot_trajectory(times, trajectory_list, label_list, filename=f"{SETPOINT_DIR}/setpoint_tracking_pid_high_Kd_instability.png", title="PID-Controlled Setpoint Tracking", setpoint=320)
-
+run_pid_tuning_study()
+run_pid_instability_study()
 
 # PControl vs PIControl comparison plot
-times, p_temperatures, p_labels = run_setpoint_tracking(controller_type=PController, Kp=1.0)
-trajectory_list = []
-label_list = []
-comparison_Ki_values = [1.0, 2.0, 20.0]
-for Ki in comparison_Ki_values:
-    times, temperatures, labels = run_setpoint_tracking(controller_type=PIController, Kp=1.0, Ki=Ki)
-    trajectory_list.append(temperatures)
-    label_list.extend(labels)
-Plotting.plot_trajectory(times, [p_temperatures]+trajectory_list, [p_labels[0]]+label_list, filename=f"{SETPOINT_DIR}/p_vs_pi_comparison.png", title="P vs PI-Controlled Setpoint Tracking", setpoint=320)
-
+run_p_vs_pi_comparison()
 # Plot phase portrait of the system
 model = FirstOrderSystem()
 Plotting.plot_phase_portrait(model=model, filename=f"{PHASE_DIR}/phase_portrait.png")

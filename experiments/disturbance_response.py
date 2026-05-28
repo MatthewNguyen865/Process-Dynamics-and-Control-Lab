@@ -31,3 +31,5 @@ def run_disturbance_response_study(setpoint=320):
         filename=f"{SETPOINT_DIR}/disturbance_response_comparison.png", 
         title="Controller Disturbance Rejection Comparison", 
         setpoint=setpoint)
+    
+    return times, trajectory_list, label_list

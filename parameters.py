@@ -11,8 +11,16 @@ Kd_values = [0.01, 0.05, 0.1, 0.2, 0.5]
 PID_Kp = 1.0
 PID_Ki = 2.0
 
-#Plot/Output Parameters
+#Plot Parameters
 PLOT_DIR = "example_plots"
+
 BASIN_DIR = f"{PLOT_DIR}/basin_dynamics"
 SETPOINT_DIR = f"{PLOT_DIR}/setpoint_tracking"
 PHASE_DIR = f"{PLOT_DIR}/phase_portraits"
+
+# Data Parameters
+DATA_DIR = "data"
+
+BASIN_DATA_DIR = f"{DATA_DIR}/basin_dynamics"
+SETPOINT_DATA_DIR = f"{DATA_DIR}/setpoint_tracking"
+DISTURBANCE_DATA_DIR = f"{DATA_DIR}/disturbance_response"

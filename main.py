@@ -7,6 +7,7 @@ from controllers.pid import PIDController
 from experiments.setpoint_tracking import run_setpoint_tracking
 from parameters import PID_Kp, PID_Ki, BASIN_DIR, PHASE_DIR, SETPOINT_DIR
 from experiments.tuning_study import run_p_tuning_study, run_pi_tuning_study, run_pid_tuning_study, run_pid_instability_study, run_p_vs_pi_comparison
+from experiments.disturbance_response import run_disturbance_response_study
 
 # Run basin study with and without control and plot results
 times, temperatures, labels = run_basin_study()
@@ -33,6 +34,9 @@ times, temperatures, labels = run_setpoint_tracking(controller_type=PIDControlle
 Plotting.plot_trajectory(times, [temperatures], labels, filename=f"{SETPOINT_DIR}/setpoint_tracking_pid_best.png", title="PID-Controlled Setpoint Tracking", setpoint=320)
 run_pid_tuning_study()
 run_pid_instability_study()
+
+# Run disturbance response study and plot results
+run_disturbance_response_study()
 
 # PControl vs PIControl comparison plot
 run_p_vs_pi_comparison()

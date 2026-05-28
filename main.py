@@ -3,8 +3,9 @@ from visualization.plots import Plotting
 from models.first_order_system import FirstOrderSystem
 from controllers.p import PController
 from controllers.pi import PIController
+from controllers.pid import PIDController
 from experiments.setpoint_tracking import run_setpoint_tracking
-from parameters import Kp_values, Ki_values, BASIN_DIR, PHASE_DIR, SETPOINT_DIR
+from parameters import Kp_values, Ki_values, Kd_values, PID_Kp, PID_Ki, BASIN_DIR, PHASE_DIR, SETPOINT_DIR
 
 # Run basin study with and without control and plot results
 times, temperatures, labels = run_basin_study()
@@ -13,6 +14,8 @@ times, temperatures, labels = run_basin_study(controller=PController(Kp=1.0, set
 Plotting.plot_trajectory(times, temperatures, labels, filename=f"{BASIN_DIR}/p_controlled_basin_dynamics.png", title="P-Controlled Temperature Trajectories (setpoint = 300K)")
 times, temperatures, labels = run_basin_study(controller=PIController(Kp=1.0, Ki=1.0, setpoint=300))
 Plotting.plot_trajectory(times, temperatures, labels, filename=f"{BASIN_DIR}/pi_controlled_basin_dynamics.png", title="PI-Controlled Temperature Trajectories (setpoint = 300K)")
+times, temperatures, labels = run_basin_study(controller=PIDController(Kp=PID_Kp, Ki=PID_Ki, Kd=0.1, setpoint=300))
+Plotting.plot_trajectory(times, temperatures, labels, filename=f"{BASIN_DIR}/pid_controlled_basin_dynamics.png", title="PID-Controlled Temperature Trajectories (setpoint = 300K)")
 
 # Run setpoint tracking experiment with P controller and plot results
 times, temperatures, labels = run_setpoint_tracking(controller_type=PController, Kp=1.0)
@@ -37,6 +40,29 @@ for Kp, Ki in zip(Kp_values, Ki_values):
     trajectory_list.append(temperatures)
     label_list.extend(labels)
 Plotting.plot_trajectory(times, trajectory_list, label_list, filename=f"{SETPOINT_DIR}/setpoint_tracking_Kp_Ki_sweep.png", title="PI-Controlled Setpoint Tracking", setpoint=320)
+
+# Run setpoint tracking experiment with PID controller and plot results
+times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=0.1)
+Plotting.plot_trajectory(times, [temperatures], labels, filename=f"{SETPOINT_DIR}/setpoint_tracking_pid_best.png", title="PID-Controlled Setpoint Tracking", setpoint=320)
+
+trajectory_list = []
+label_list = []
+for Kd in Kd_values:
+    times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=Kd)
+    trajectory_list.append(temperatures)
+    label_list.extend(labels)
+Plotting.plot_trajectory(times, trajectory_list, label_list, filename=f"{SETPOINT_DIR}/setpoint_tracking_Kd_sweep.png", title="PID-Controlled Setpoint Tracking", setpoint=320)
+
+trajectory_list = []
+label_list = []
+times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=0.1)
+trajectory_list.append(temperatures)
+label_list.extend(labels)
+times, temperatures, labels = run_setpoint_tracking(controller_type=PIDController, Kp=PID_Kp, Ki=PID_Ki, Kd=1.0)
+trajectory_list.append(temperatures)
+label_list.extend(labels)
+Plotting.plot_trajectory(times, trajectory_list, label_list, filename=f"{SETPOINT_DIR}/setpoint_tracking_pid_high_Kd_instability.png", title="PID-Controlled Setpoint Tracking", setpoint=320)
+
 
 # PControl vs PIControl comparison plot
 times, p_temperatures, p_labels = run_setpoint_tracking(controller_type=PController, Kp=1.0)

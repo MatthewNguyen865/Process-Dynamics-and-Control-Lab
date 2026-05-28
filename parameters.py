@@ -7,6 +7,9 @@ default_k = 0.001
 initial_temps = [240, 260, 290, 310, 340, 360]
 Kp_values = [0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
 Ki_values = [0.5, 1.0, 2.0, 5.0, 10.0, 20.0]
+Kd_values = [0.01, 0.05, 0.1, 0.2, 0.5]
+PID_Kp = 1.0
+PID_Ki = 2.0
 
 #Plot/Output Parameters
 PLOT_DIR = "example_plots"

@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from controllers.p import PController
+from models.first_order_system import FirstOrderSystem
 class Plotting:
     @staticmethod
     def set_plotting_style():
@@ -15,7 +16,13 @@ class Plotting:
         plt.rcParams['legend.frameon'] = True
     
     @staticmethod
-    def plot_trajectory(times, temperatures, labels, filename="temperature_trajectories.png", title="Temperature Trajectories", setpoint=None):
+    def plot_trajectory(times: list[float], 
+                        temperatures: list[list[float]], 
+                        labels: list[str], 
+                        filename: str="temperature_trajectories.png", 
+                        title: str="Temperature Trajectories", 
+                        setpoint: float | None=None
+                        ) -> None:
         Plotting.set_plotting_style()
         plt.figure()
 
@@ -44,6 +51,7 @@ class Plotting:
         plt.savefig(filename)
 
         plt.show()
+        plt.close()
     
 
     @staticmethod
@@ -68,7 +76,7 @@ class Plotting:
 
     
     @staticmethod
-    def plot_phase_portrait(model, filename="phase_portraits/phase_portrait.png"):
+    def plot_phase_portrait(model: FirstOrderSystem, filename: str="phase_portraits/phase_portrait.png") -> None:
         Plotting.set_plotting_style()
         plt.figure()
 
@@ -97,10 +105,15 @@ class Plotting:
         plt.savefig(filename)
         
         plt.show()
+        plt.close()
     
 
     @staticmethod
-    def plot_controlled_phase_portrait(model, filename="phase_portraits/controlled_phase_portrait.png", Kp=1.0, setpoint=300):
+    def plot_controlled_phase_portrait(model: FirstOrderSystem, 
+                                       filename: str="phase_portraits/controlled_phase_portrait.png", 
+                                       Kp: float=1.0, 
+                                       setpoint: float=300
+                                       ):
         Plotting.set_plotting_style()
         plt.figure()
         
@@ -120,3 +133,4 @@ class Plotting:
         plt.savefig(filename)
 
         plt.show()
+        plt.close()

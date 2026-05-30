@@ -6,8 +6,9 @@ from visualization.plots import Plotting
 from parameters import time_step, SETPOINT_DIR, PID_Kp, PID_Ki
 
 def step_disturbance(time):
+    disturbance_magnitude = 15 * time_step
     if time >= 0.5:
-        return 15 * time_step
+        return disturbance_magnitude
     return 0
 
 def run_disturbance_response_study(setpoint=320):
@@ -28,7 +29,7 @@ def run_disturbance_response_study(setpoint=320):
         times, 
         trajectory_list, 
         label_list, 
-        filename=f"{SETPOINT_DIR}/disturbance_response_comparison.png", 
+        filename=f"{SETPOINT_DIR}/disturbance_response_tuning.png", 
         title="Controller Disturbance Rejection Comparison", 
         setpoint=setpoint)
     

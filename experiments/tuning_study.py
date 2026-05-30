@@ -89,7 +89,7 @@ def run_pid_instability_study(setpoint=320):
         times, 
         trajectory_list, 
         label_list, 
-        filename=f"{SETPOINT_DIR}/setpoint_tracking_pid_high_Kd_instability.png", 
+        filename=f"{SETPOINT_DIR}/pid_high_Kd_instability.png", 
         title="PID High-Derivative Instability Study", 
         setpoint=setpoint)
 

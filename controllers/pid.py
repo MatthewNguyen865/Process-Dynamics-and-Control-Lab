@@ -1,5 +1,5 @@
 class PIDController:
-    def __init__(self, Kp, Ki, Kd, setpoint):
+    def __init__(self, setpoint: float, Kp: float, Ki: float, Kd: float):
         self.Kp = Kp
         self.Ki = Ki
         self.Kd = Kd
@@ -8,7 +8,7 @@ class PIDController:
         self.integral = 0.0
         self.previous_error = 0.0
 
-    def compute_control(self, measurement, dt):
+    def compute_control(self, measurement: float, dt: float) -> float:
         error = self.setpoint - measurement
 
         self.integral += error * dt

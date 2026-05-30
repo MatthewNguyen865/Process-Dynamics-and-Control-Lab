@@ -12,14 +12,15 @@ PID_Kp = 1.0
 PID_Ki = 2.0
 
 #Plot Parameters
-PLOT_DIR = "example_plots"
+RESULTS_DIR = "results"
+PLOT_DIR = f"{RESULTS_DIR}/plots"
 
 BASIN_DIR = f"{PLOT_DIR}/basin_dynamics"
 SETPOINT_DIR = f"{PLOT_DIR}/setpoint_tracking"
 PHASE_DIR = f"{PLOT_DIR}/phase_portraits"
 
 # Data Parameters
-DATA_DIR = "data"
+DATA_DIR = f"{RESULTS_DIR}/data"
 
 BASIN_DATA_DIR = f"{DATA_DIR}/basin_dynamics"
 SETPOINT_DATA_DIR = f"{DATA_DIR}/setpoint_tracking"
